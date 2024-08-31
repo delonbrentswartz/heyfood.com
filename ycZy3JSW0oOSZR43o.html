@@ -1,0 +1,555 @@
+<html><head><base href="https://heyfood.com/"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>HeyFood - Fast & Fresh Food Delivery</title>
+<style>
+    :root {
+        --primary-color: #FF3B3B;
+        --secondary-color: #FFFFFF;
+        --text-color: #333333;
+        --background-color: #F5F5F5;
+    }
+    
+    body {
+        font-family: 'Roboto', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        padding-bottom: 60px; /* Space for cart tab */
+    }
+    
+    header {
+        background-color: var(--secondary-color);
+        padding: 1rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .logo {
+        font-size: 2rem;
+        font-weight: bold;
+        color: var(--primary-color);
+        cursor: pointer;
+    }
+    
+    nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .search-bar {
+        display: flex;
+        align-items: center;
+        background-color: var(--background-color);
+        border-radius: 25px;
+        padding: 0.5rem 1rem;
+        width: 50%;
+    }
+    
+    .search-bar input {
+        border: none;
+        background-color: transparent;
+        width: 100%;
+        padding: 0.5rem;
+        font-size: 1rem;
+    }
+    
+    .search-bar button {
+        background-color: var(--primary-color);
+        color: var(--secondary-color);
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    
+    .search-bar button:hover {
+        background-color: #E62E2E;
+    }
+    
+    main {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+    
+    .category-list {
+        display: flex;
+        overflow-x: auto;
+        gap: 1rem;
+        padding-bottom: 1rem;
+    }
+    
+    .category-item {
+        background-color: var(--secondary-color);
+        border-radius: 15px;
+        padding: 1rem;
+        text-align: center;
+        min-width: 100px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+    
+    .category-item:hover {
+        transform: translateY(-5px);
+    }
+    
+    .category-icon {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .restaurant-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+    
+    .restaurant-card {
+        background-color: var(--secondary-color);
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+        cursor: pointer;
+    }
+    
+    .restaurant-card:hover {
+        transform: translateY(-10px);
+    }
+    
+    .restaurant-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+    
+    .restaurant-info {
+        padding: 1rem;
+    }
+    
+    .restaurant-name {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+    
+    .restaurant-rating {
+        color: var(--primary-color);
+        font-weight: bold;
+    }
+    
+    .restaurant-cuisine {
+        color: #777;
+        font-size: 0.9rem;
+    }
+    
+    .restaurant-profile {
+        display: none;
+        background-color: var(--secondary-color);
+        border-radius: 15px;
+        padding: 2rem;
+        margin-top: 2rem;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    .restaurant-profile h2 {
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+    }
+    
+    .restaurant-profile p {
+        margin-bottom: 1rem;
+    }
+    
+    .menu-section {
+        margin-top: 2rem;
+    }
+    
+    .menu-item {
+        display: flex;
+        flex-direction: column;
+        padding: 1rem 0;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .menu-item:last-child {
+        border-bottom: none;
+    }
+    
+    .menu-item-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+    }
+    
+    .menu-item-name {
+        font-weight: bold;
+    }
+    
+    .menu-item-price {
+        color: var(--primary-color);
+    }
+    
+    .menu-item-description {
+        font-size: 0.9rem;
+        color: #777;
+        margin-bottom: 0.5rem;
+    }
+    
+    .menu-item-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .menu-item-option {
+        background-color: var(--primary-color);
+        color: var(--secondary-color);
+        border: none;
+        border-radius: 15px;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.8rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    
+    .menu-item-option:hover {
+        background-color: #E62E2E;
+    }
+    
+    .add-to-cart {
+        background-color: var(--primary-color);
+        color: var(--secondary-color);
+        border: none;
+        border-radius: 25px;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-top: 1rem;
+    }
+    
+    .add-to-cart:hover {
+        background-color: #E62E2E;
+    }
+    
+    .back-button {
+        background-color: var(--primary-color);
+        color: var(--secondary-color);
+        border: none;
+        border-radius: 25px;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-top: 1rem;
+    }
+    
+    .back-button:hover {
+        background-color: #E62E2E;
+    }
+    
+    .cart-tab {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: var(--primary-color);
+        color: var(--secondary-color);
+        padding: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .cart-total {
+        font-weight: bold;
+    }
+    
+    .view-cart-button {
+        background-color: var(--secondary-color);
+        color: var(--primary-color);
+        border: none;
+        border-radius: 25px;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    
+    .view-cart-button:hover {
+        background-color: #F0F0F0;
+    }
+    
+    @media (max-width: 768px) {
+        .search-bar {
+            width: 100%;
+            margin-top: 1rem;
+        }
+        
+        nav {
+            flex-direction: column;
+        }
+    }
+</style>
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">HeyFood</div>
+            <div class="search-bar">
+                <input type="text" placeholder="Search for restaurants or cuisines">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+        </nav>
+    </header>
+    
+    <main>
+        <section class="category-list">
+            <div class="category-item">
+                <div class="category-icon">🍔</div>
+                <div>Burgers</div>
+            </div>
+            <div class="category-item">
+                <div class="category-icon">🍕</div>
+                <div>Pizza</div>
+            </div>
+            <div class="category-item">
+                <div class="category-icon">🍣</div>
+                <div>Sushi</div>
+            </div>
+            <div class="category-item">
+                <div class="category-icon">🥗</div>
+                <div>Salads</div>
+            </div>
+            <div class="category-item">
+                <div class="category-icon">🍝</div>
+                <div>Italian</div>
+            </div>
+            <div class="category-item">
+                <div class="category-icon">🌮</div>
+                <div>Mexican</div>
+            </div>
+        </section>
+        
+        <section class="restaurant-grid">
+            <div class="restaurant-card" data-restaurant="burger-joint">
+                <img src="https://heyfood.com/images/burger-joint.jpg" alt="Burger Joint restaurant interior, modern decor with red accents" class="restaurant-image" width="250" height="200">
+                <div class="restaurant-info">
+                    <div class="restaurant-name">Burger Joint</div>
+                    <div class="restaurant-rating">⭐ 4.5</div>
+                    <div class="restaurant-cuisine">American • Burgers</div>
+                </div>
+            </div>
+            <div class="restaurant-card">
+                <img src="https://heyfood.com/images/pizza-palace.jpg" alt="Pizza Palace storefront, rustic brick exterior with neon sign" class="restaurant-image" width="250" height="200">
+                <div class="restaurant-info">
+                    <div class="restaurant-name">Pizza Palace</div>
+                    <div class="restaurant-rating">⭐ 4.3</div>
+                    <div class="restaurant-cuisine">Italian • Pizza</div>
+                </div>
+            </div>
+            <div class="restaurant-card">
+                <img src="https://heyfood.com/images/sushi-spot.jpg" alt="Sushi Spot interior, minimalist design with bamboo accents" class="restaurant-image" width="250" height="200">
+                <div class="restaurant-info">
+                    <div class="restaurant-name">Sushi Spot</div>
+                    <div class="restaurant-rating">⭐ 4.7</div>
+                    <div class="restaurant-cuisine">Japanese • Sushi</div>
+                </div>
+            </div>
+            <div class="restaurant-card">
+                <img src="https://heyfood.com/images/taco-fiesta.jpg" alt="Taco Fiesta food truck, brightly colored with Mexican flag motif" class="restaurant-image" width="250" height="200">
+                <div class="restaurant-info">
+                    <div class="restaurant-name">Taco Fiesta</div>
+                    <div class="restaurant-rating">⭐ 4.6</div>
+                    <div class="restaurant-cuisine">Mexican • Tacos</div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="restaurant-profile" id="burger-joint-profile">
+            <h2>Burger Joint</h2>
+            <p><strong>Rating:</strong> ⭐ 4.5</p>
+            <p><strong>Cuisine:</strong> American • Burgers</p>
+            <p><strong>Address:</strong> 123 Main St, Foodville, CA 90210</p>
+            <p><strong>Hours:</strong> Mon-Sun 11:00 AM - 10:00 PM</p>
+            <p><strong>Description:</strong> Burger Joint is your go-to spot for mouthwatering, juicy burgers made with 100% Angus beef. Our modern, casual atmosphere is perfect for a quick lunch or a fun dinner with friends.</p>
+            
+            <div class="menu-section">
+                <h3>Menu Highlights</h3>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <span class="menu-item-name">Classic Cheeseburger</span>
+                        <span class="menu-item-price">$9.99</span>
+                    </div>
+                    <p class="menu-item-description">Juicy beef patty with melted cheddar cheese, lettuce, tomato, and our secret sauce on a toasted brioche bun.</p>
+                    <div class="menu-item-options">
+                        <button class="menu-item-option">Add bacon</button>
+                        <button class="menu-item-option">Extra cheese</button>
+                        <button class="menu-item-option">Gluten-free bun</button>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <span class="menu-item-name">Bacon Avocado Burger</span>
+                        <span class="menu-item-price">$12.99</span>
+                    </div>
+                    <p class="menu-item-description">Angus beef patty topped with crispy bacon, fresh avocado, Swiss cheese, and garlic aioli.</p>
+                    <div class="menu-item-options">
+                        <button class="menu-item-option">Double patty</button>
+                        <button class="menu-item-option">Spicy jalapenos</button>
+                        <button class="menu-item-option">Onion rings</button>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <span class="menu-item-name">Veggie Deluxe Burger</span>
+                        <span class="menu-item-price">$10.99</span>
+                    </div>
+                    <p class="menu-item-description">House-made veggie patty with grilled portobello mushroom, roasted red peppers, and pesto mayo.</p>
+                    <div class="menu-item-options">
+                        <button class="menu-item-option">Add cheese</button>
+                        <button class="menu-item-option">Vegan bun</button>
+                        <button class="menu-item-option">Extra veggies</button>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <span class="menu-item-name">Truffle Fries</span>
+                        <span class="menu-item-price">$5.99</span>
+                    </div>
+                    <p class="menu-item-description">Crispy fries tossed in truffle oil and parmesan cheese, served with garlic aioli.</p>
+                    <div class="menu-item-options">
+                        <button class="menu-item-option">Large size</button>
+                        <button class="menu-item-option">Extra aioli</button>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <span class="menu-item-name">Milkshake of the Day</span>
+                        <span class="menu-item-price">$6.99</span>
+                    </div>
+                    <p class="menu-item-description">Ask about our daily special milkshake, made with premium ice cream and fresh ingredients.</p>
+                    <div class="menu-item-options">
+                        <button class="menu-item-option">Add whipped cream</button>
+                        <button class="menu-item-option">Extra thick</button>
+                    </div>
+                    <button class="add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+            
+            <button class="back-button">Back to Restaurants</button>
+        </section>
+    </main>
+
+    <div class="cart-tab">
+        <span class="cart-total">Cart Total: $0.00</span>
+        <button class="view-cart-button">View Cart</button>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchBar = document.querySelector('.search-bar input');
+        const searchButton = document.querySelector('.search-bar button');
+        const categoryItems = document.querySelectorAll('.category-item');
+        const restaurantCards = document.querySelectorAll('.restaurant-card');
+        const restaurantGrid = document.querySelector('.restaurant-grid');
+        const restaurantProfile = document.querySelector('.restaurant-profile');
+        const backButton = document.querySelector('.back-button');
+        const logo = document.querySelector('.logo');
+        const addToCartButtons = document.querySelectorAll('.add-to-cart');
+        const cartTotal = document.querySelector('.cart-total');
+        const viewCartButton = document.querySelector('.view-cart-button');
+
+        let cart = [];
+
+        searchButton.addEventListener('click', function() {
+            const searchTerm = searchBar.value.toLowerCase();
+            restaurantCards.forEach(card => {
+                const restaurantName = card.querySelector('.restaurant-name').textContent.toLowerCase();
+                const restaurantCuisine = card.querySelector('.restaurant-cuisine').textContent.toLowerCase();
+                if (restaurantName.includes(searchTerm) || restaurantCuisine.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        categoryItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const category = this.querySelector('div:last-child').textContent.toLowerCase();
+                restaurantCards.forEach(card => {
+                    const restaurantCuisine = card.querySelector('.restaurant-cuisine').textContent.toLowerCase();
+                    if (restaurantCuisine.includes(category)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        restaurantCards.forEach(card => {
+            card.addEventListener('click', function() {
+                if (this.dataset.restaurant === 'burger-joint') {
+                    restaurantGrid.style.display = 'none';
+                    restaurantProfile.style.display = 'block';
+                }
+            });
+        });
+
+        backButton.addEventListener('click', function() {
+            restaurantGrid.style.display = 'grid';
+            restaurantProfile.style.display = 'none';
+        });
+
+        logo.addEventListener('click', function() {
+            restaurantGrid.style.display = 'grid';
+            restaurantProfile.style.display = 'none';
+            restaurantCards.forEach(card => {
+                card.style.display = 'block';
+            });
+            searchBar.value = '';
+        });
+
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const menuItem = this.closest('.menu-item');
+                const itemName = menuItem.querySelector('.menu-item-name').textContent;
+                const itemPrice = parseFloat(menuItem.querySelector('.menu-item-price').textContent.replace('$', ''));
+                
+                cart.push({ name: itemName, price: itemPrice });
+                updateCartTotal();
+            });
+        });
+
+        function updateCartTotal() {
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            cartTotal.textContent = `Cart Total: $${total.toFixed(2)}`;
+        }
+
+        viewCartButton.addEventListener('click', function() {
+            alert('Cart items:\n' + cart.map(item => `${item.name}: $${item.price.toFixed(2)}`).join('\n'));
+        });
+
+        // Add functionality for menu item options
+        const menuItemOptions = document.querySelectorAll('.menu-item-option');
+        menuItemOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                const optionName = this.textContent;
+                alert(`Selected option: ${optionName}`);
+                // Here you can add logic to update the item price or description based on the selected option
+            });
+        });
+    });
+    </script>
+</body>
+</html>
